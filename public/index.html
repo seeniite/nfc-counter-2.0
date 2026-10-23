@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thinking of You</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fdf2f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            text-align: center;
+        }
+        .counter-box {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            min-width: 140px;
+        }
+        h2 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .count {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .red { color: #e63946; }
+        .pink { color: #ff758f; }
+        .hint {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="counter-box">
+            <h2 class="red">Thinking of you ❤️</h2>
+            <div id="count-a" class="count red">0</div>
+        </div>
+        <div class="counter-box">
+            <h2 class="pink">Thinking of you 💕</h2>
+            <div id="count-b" class="count pink">0</div>
+        </div>
+    </div>
+
+    <div class="hint">Tap your NFC tag to send love! ✨</div>
+
+    <script>
+        // Connect to Server-Sent Events stream for live updates
+        const evtSource = new EventSource('/events');
+        
+        evtSource.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            document.getElementById('count-a').innerText = data.a;
+            document.getElementById('count-b').innerText = data.b;
+        };
+    </script>
+</body>
+</html>
